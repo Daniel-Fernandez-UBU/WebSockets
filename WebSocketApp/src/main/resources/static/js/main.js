@@ -130,7 +130,6 @@ function getAvatarColor(messageSender) {
 
 function disconnect() {
     if (stompClient !== null) {
-	    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         stompClient.disconnect();
         usernamePage.classList.remove('hidden');
         chatPage.classList.add('hidden');
