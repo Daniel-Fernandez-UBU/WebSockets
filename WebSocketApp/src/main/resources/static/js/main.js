@@ -20,7 +20,7 @@ var colors = [
 function connect(event) {
 	
 	event.preventDefault();
-    username = document.querySelector('#name').value.trim();
+    username = document.querySelector('#from').value.trim();
     password = document.querySelector('#password').value.trim();
     
     if (username && password) {
@@ -30,7 +30,6 @@ function connect(event) {
                 if (isValid) {
                     usernamePage.classList.add('hidden');
                     chatPage.classList.remove('hidden');
-                    //myAlert.classList.remove('hidden');
 
                     var socket = new SockJS('/ws');
                     stompClient = Stomp.over(socket);
@@ -38,7 +37,6 @@ function connect(event) {
                     stompClient.connect({}, onConnected, onError);
                 } else {
 					alert("El usuario no existe.");
-					//myAlert.classList.remove('hidden');
                 }
             })
             .catch(error => {
@@ -55,7 +53,7 @@ function onConnected() {
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
-        JSON.stringify({sender: username, type: 'JOIN'})
+        JSON.stringify({from: username, type: 'JOIN'})
     )
 
     connectingElement.classList.add('hidden');
@@ -72,8 +70,8 @@ function sendMessage(event) {
     var messageContent = messageInput.value.trim();
     if(messageContent && stompClient) {
         var chatMessage = {
-            sender: username,
-            content: messageInput.value,
+            from: username,
+            text: messageInput.value,
             type: 'CHAT'
         };
         stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
@@ -90,28 +88,28 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' joined!';
+        message.text = message.from + ' joined!';
     } else if (message.type === 'LEAVE') {
         messageElement.classList.add('event-message');
-        message.content = message.sender + ' left!';
+        message.text = message.from + ' left!';
     } else {
         messageElement.classList.add('chat-message');
 
         var avatarElement = document.createElement('i');
-        var avatarText = document.createTextNode(message.sender[0]);
+        var avatarText = document.createTextNode(message.from[0]);
         avatarElement.appendChild(avatarText);
-        avatarElement.style['background-color'] = getAvatarColor(message.sender);
+        avatarElement.style['background-color'] = getAvatarColor(message.from);
 
         messageElement.appendChild(avatarElement);
 
         var usernameElement = document.createElement('span');
-        var usernameText = document.createTextNode(message.sender);
+        var usernameText = document.createTextNode(message.from);
         usernameElement.appendChild(usernameText);
         messageElement.appendChild(usernameElement);
     }
 
     var textElement = document.createElement('p');
-    var messageText = document.createTextNode(message.content);
+    var messageText = document.createTextNode(message.text);
     textElement.appendChild(messageText);
 
     messageElement.appendChild(textElement);
@@ -132,7 +130,7 @@ function getAvatarColor(messageSender) {
 
 function disconnect() {
     if (stompClient !== null) {
-		
+	    stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
         stompClient.disconnect();
         usernamePage.classList.remove('hidden');
         chatPage.classList.add('hidden');

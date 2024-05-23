@@ -35,11 +35,10 @@ public class UserService {
                     // Store username and password
                     users.put(username, password);
                     usersLevel.put(username, level);
-                	System.out.println(username);
-                	System.out.println(password);
-                	System.out.println(users.toString());
+
                 }
             }
+            System.out.println("---- Listado de usuarios: " + users + " -----");
         } catch (IOException e) {
             e.toString();
         }
@@ -53,9 +52,6 @@ public class UserService {
      * @return true or false
      */
     public boolean userIsValid(String username, String password) {
-    	System.out.println(username);
-    	System.out.println(password);
-    	System.out.println(users.toString());
         return users.containsKey(username) && users.get(username).equals(password);
     }
     

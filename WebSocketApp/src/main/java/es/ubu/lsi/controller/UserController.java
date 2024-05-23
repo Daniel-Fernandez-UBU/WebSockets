@@ -15,7 +15,6 @@ public class UserController {
 
     @GetMapping("/validateUser")
     public boolean validateUser(@RequestParam String username, @RequestParam String password) {
-    	System.out.println("Estoy aqui");
         return userService.userIsValid(username, password);
     }
     
