@@ -38,7 +38,7 @@ public class UserService {
 
                 }
             }
-            System.out.println("---- Listado de usuarios: " + users + " it-----");
+            System.out.println("---- Listado de usuarios: " + users + " it -----");
         } catch (IOException e) {
             e.toString();
         }
