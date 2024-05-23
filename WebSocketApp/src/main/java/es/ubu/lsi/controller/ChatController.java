@@ -23,7 +23,6 @@ public class ChatController {
     public ChatMessage addUser(@Payload ChatMessage chatMessage, 
                                SimpMessageHeaderAccessor headerAccessor) {
         // Add username in web socket session
-    	System.out.println(chatMessage.getFrom().toString());
         headerAccessor.getSessionAttributes().put("username", chatMessage.getFrom());
         return chatMessage;
     }
