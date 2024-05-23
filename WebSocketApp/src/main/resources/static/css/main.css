@@ -161,7 +161,7 @@ button.accent {
 }
 
 #chat-page #messageForm {
-    padding: 20px;
+    padding: 3px;
 }
 
 #chat-page ul li {
@@ -195,7 +195,7 @@ button.accent {
 #chat-page .chat-message i {
     position: absolute;
     width: 42px;
-    height: 42px;
+    height: 52px;
     overflow: hidden;
     left: 10px;
     display: inline-block;
