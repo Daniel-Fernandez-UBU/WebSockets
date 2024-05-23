@@ -8,6 +8,7 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
+
 var stompClient = null;
 var username = null;
 
@@ -17,20 +18,35 @@ var colors = [
 ];
 
 function connect(event) {
+	
+	event.preventDefault();
     username = document.querySelector('#name').value.trim();
+    password = document.querySelector('#password').value.trim();
+    
+    if (username && password) {
+        fetch(`/validateUser?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`)
+            .then(response => response.json())
+            .then(isValid => {
+                if (isValid) {
+                    usernamePage.classList.add('hidden');
+                    chatPage.classList.remove('hidden');
+                    //myAlert.classList.remove('hidden');
 
-    if(username) {
-        usernamePage.classList.add('hidden');
-        chatPage.classList.remove('hidden');
+                    var socket = new SockJS('/ws');
+                    stompClient = Stomp.over(socket);
 
-        var socket = new SockJS('/ws');
-        stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, onConnected, onError);
+                    stompClient.connect({}, onConnected, onError);
+                } else {
+					alert("El usuario no existe.");
+					//myAlert.classList.remove('hidden');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }
-    event.preventDefault();
-}
 
+}
 
 function onConnected() {
     // Subscribe to the Public Topic
@@ -114,5 +130,16 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
+function disconnect() {
+    if (stompClient !== null) {
+		
+        stompClient.disconnect();
+        usernamePage.classList.remove('hidden');
+        chatPage.classList.add('hidden');
+    }
+}
+
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
+
+document.getElementById('disconnectButton').addEventListener('click', disconnect);
