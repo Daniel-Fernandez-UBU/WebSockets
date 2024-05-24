@@ -19,7 +19,7 @@ var colors = [
 
 function connect(event) {
 	
-	event.preventDefault();
+	
     username = document.querySelector('#from').value.trim();
     password = document.querySelector('#password').value.trim();
     
@@ -43,6 +43,7 @@ function connect(event) {
                 console.error('Error:', error);
             });
     }
+    event.preventDefault();
 
 }
 
@@ -116,6 +117,14 @@ function onMessageReceived(payload) {
 
     messageArea.appendChild(messageElement);
     messageArea.scrollTop = messageArea.scrollHeight;
+    
+    
+}
+
+function clearMessageArea() {
+    while (messageArea.firstChild) {
+        messageArea.removeChild(messageArea.firstChild);
+    }
 }
 
 
@@ -130,13 +139,19 @@ function getAvatarColor(messageSender) {
 
 function disconnect() {
     if (stompClient !== null) {
+	    var chatMessage = {
+            from: username,
+            type: 'LEAVE'
+        };
+        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+        clearMessageArea();
         stompClient.disconnect();
         usernamePage.classList.remove('hidden');
         chatPage.classList.add('hidden');
     }
+
 }
 
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
-
 document.getElementById('disconnectButton').addEventListener('click', disconnect);
