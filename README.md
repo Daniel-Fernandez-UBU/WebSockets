@@ -10,6 +10,11 @@ Datos relevantes:
 - Se ha cambiado el puerto por defecto a 8090
 - En la página de lógin se tiene que indicar si se quieren recibir mensajes de usuarios de niveles "inferiores" o no.
 - Los mensajes en el chat siguen el siguiente esquema: "nivel - usuario fecha del mensaje"
+- Los usuarios definidos son los siguientes:
+	- usuario,contraseña,nivel
+	- daniel,daniel123,3
+	- ismael,ismael123,4
+	- profesor,profesor123,3
 
 Funcionamiento:
 - Clonar el repositorio.
