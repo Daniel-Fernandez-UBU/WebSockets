@@ -10,21 +10,36 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
+
+/**
+ * Clase UserService.
+ * 
+ * Clase para construir los datos de los usuarios leídos desde un fichero /src/main/resources/csv/usuarios.csv
+ * 
+ * @author Daniel Fernández Barrientos
+ * @author Ismael Manzanera López
+ * 
+ * @version 1.0
+ */
 @Service
 public class UserService {
 
+	/** Atributos de la clase. */
     private Map<String, String> users = new HashMap<>();
     private Map<String, Integer> usersLevel = new HashMap<>();
     
+    /** Variable con el fichero usuarios.csv. */
+    private final String file = "/csv/usuarios.csv";
+    
     /**
-     * UserService init().
+     * Método init().
      * 
-     * Initialize the list of users, password and level from the csv.
+     * Inizializa la lista de usuarios, contraseñas y niveles leídos desde un csv.
      * 
      */
     @PostConstruct
     public void init() {
-        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/csv/usuarios.csv")))) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(file)))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] fields = line.split(",");
@@ -38,15 +53,16 @@ public class UserService {
 
                 }
             }
-            System.out.println("---- Listado de usuarios: " + users + "  -----");
-            System.out.println("---- Listado de niveles: " + usersLevel + "  -----");
+            /** Si se quiere comprobar el listado de usuarios y niveles leído, quitar comentario para verlo en consola */
+            // System.out.println("---- Listado de usuarios: " + users + "  -----");
+            // System.out.println("---- Listado de niveles: " + usersLevel + "  -----");
         } catch (IOException e) {
             e.toString();
         }
     }
 
     /**
-     * Method userIsValid().
+     * Método userIsValid.
      * 
      * @param username
      * @param password
@@ -57,7 +73,7 @@ public class UserService {
     }
     
     /**
-     * Method userLevel().
+     * Método userLevel.
      * @param username
      * @return string - level of the user
      */

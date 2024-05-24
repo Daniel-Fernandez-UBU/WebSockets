@@ -1,5 +1,16 @@
 'use strict';
 
+/**
+ * Java Script para el manejo del chat, mensajes y conexiones.
+ * 
+ * @author Daniel Fernández Barrientos
+ * @author Ismael Manzanera López
+ * 
+ * @version 2.0
+ * 
+ */
+
+/** Variables que se obtienen del html. */
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
 var usernameForm = document.querySelector('#usernameForm');
@@ -9,17 +20,28 @@ var messageArea = document.querySelector('#messageArea');
 var connectingElement = document.querySelector('.connecting');
 
 
+/** Variables globales  */
 var stompClient = null;
 var username = null;
 var level = null;
 var userLevel = null;
 var accept = null;
 
+/** Listado de colores */
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
     '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
 ];
 
+/**
+ * Función connect.
+ * 
+ * 1. Recoge el evento de conexión.
+ * 2. Comprueba si el usuario y contraseña son correctos.
+ * 3. Recupera el nivel del usuario y lo almacena.
+ * 4. Modifica las partes del html para esconder la parte de login y mostrar la de chat.
+ * 
+ */
 function connect(event) {
 	
 	
@@ -65,7 +87,11 @@ function connect(event) {
 
 }
 
-
+/** Función onConnected
+ * 
+ * Función que agrega el usuario al chat.
+ * 
+ */
 function onConnected() {
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);
@@ -79,13 +105,24 @@ function onConnected() {
     connectingElement.classList.add('hidden');
 }
 
-
+/**
+ * Función onError.
+ * 
+ * Función que muestra un error si no se consigue conectar al websocket.
+ * 
+ */
 function onError(error) {
     connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
     connectingElement.style.color = 'red';
+    alert(error);
 }
 
-
+/**
+ * Función sendMessage.
+ * 
+ * Función que sirve para enviar los mensajes al servidor.
+ * 
+ */
 function sendMessage(event) {
     var messageContent = messageInput.value.trim();
     if(messageContent && stompClient) {
@@ -100,7 +137,17 @@ function sendMessage(event) {
     event.preventDefault();
 }
 
-
+/**
+ * Función onMessageReceived.
+ * 
+ * Función que lee los mensajes recibidos por el servidor y "actúa" en consecuencia:
+ * 
+ * - Join --> Nuevo usuario se ha unido al chat.
+ * - Leave --> Usuario que abandona el chat.
+ * - Resto --> Mensaje que envía cada usuario:
+ * 		- Si acepta todos los mensajes --> Recibe todos los mensajes.
+ * 		- Si no acepta todos los mensajes --> Recibe aquellos mensajes de niveles superiores o iguales al suyo.
+ */
 function onMessageReceived(payload) {
 	
     var message = JSON.parse(payload.body);
@@ -111,7 +158,7 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.text = message.from + ' se ha unido! ' + accept + ' acepta mensajes de niveles inferiores a: ' + fromLevel;
+        message.text = message.from + ' se ha unido! ' + accept + ' acepta mensajes de niveles inferiores a ' + fromLevel;
         var textElement = document.createElement('p');
 	    var messageText = document.createTextNode(message.text);
 	    textElement.appendChild(messageText);
@@ -168,14 +215,24 @@ function onMessageReceived(payload) {
 
 }
 
-
+/**
+ * Funcón clearMessageArea.
+ * 
+ * Límpia el área de chat cada vez que se desconecta un usuario.
+ * 
+ */
 function clearMessageArea() {
     while (messageArea.firstChild) {
         messageArea.removeChild(messageArea.firstChild);
     }
 }
 
-
+/**
+ * Función getAvatarColor.
+ * 
+ * Función que devuelve el color del "avatar".
+ * 
+ */
 function getAvatarColor(messageSender) {
     var hash = 0;
     for (var i = 0; i < messageSender.length; i++) {
@@ -185,6 +242,11 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
+/** Función disconnect.
+ * 
+ * Función que desconecta a los usuarios y muestra de nuevo la página de login.
+ * 
+ */
 function disconnect() {
     clearMessageArea();
     stompClient.disconnect();
@@ -193,6 +255,7 @@ function disconnect() {
 
 }
 
+/** Eventos para gestionar distintos botones del html. */
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
 document.getElementById('disconnectButton').addEventListener('click', disconnect);

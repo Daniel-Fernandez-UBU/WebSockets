@@ -18,6 +18,11 @@ import es.ubu.lsi.service.UserService;
  * 
  * Clase controladora para el chat, que añade nuevos usuarios al chat o envía los mensajes al resto de destinatarios
  * 
+ * @author Daniel Fernández Barrientos
+ * @author Ismael Manzanera López
+ * 
+ * @version 1.0
+ * 
  */
 @Controller
 public class ChatController {
