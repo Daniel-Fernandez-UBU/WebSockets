@@ -23,9 +23,9 @@ var connectingElement = document.querySelector('.connecting');
 /** Variables globales  */
 var stompClient = null;
 var username = null;
-var level = null;
 var userLevel = null;
 var accept = null;
+var password = null;
 
 /** Listado de colores */
 var colors = [
@@ -158,7 +158,7 @@ function onMessageReceived(payload) {
 
     if(message.type === 'JOIN') {
         messageElement.classList.add('event-message');
-        message.text = message.from + ' se ha unido! ' + accept + ' acepta mensajes de niveles inferiores a ' + fromLevel;
+        message.text = message.from + ' se ha unido! - nivel ' + fromLevel;
         var textElement = document.createElement('p');
 	    var messageText = document.createTextNode(message.text);
 	    textElement.appendChild(messageText);
@@ -256,6 +256,6 @@ function disconnect() {
 }
 
 /** Eventos para gestionar distintos botones del html. */
-usernameForm.addEventListener('submit', connect, true)
-messageForm.addEventListener('submit', sendMessage, true)
-document.getElementById('disconnectButton').addEventListener('click', disconnect);
+usernameForm.addEventListener('submit', connect, true);
+messageForm.addEventListener('submit', sendMessage, true);
+document.getElementById('disconnectButton').addEventListener('click', disconnect)
