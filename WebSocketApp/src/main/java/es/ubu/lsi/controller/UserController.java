@@ -20,7 +20,7 @@ public class UserController {
     
     @GetMapping("/getLevel")
     public int getLevel(@RequestParam String username) {
-        return 0;
+        return userService.userLevel(username);
     }
 
 }

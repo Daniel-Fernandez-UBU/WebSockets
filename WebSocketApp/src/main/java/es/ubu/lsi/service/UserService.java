@@ -38,7 +38,8 @@ public class UserService {
 
                 }
             }
-            System.out.println("---- Listado de usuarios: " + users + " it -----");
+            System.out.println("---- Listado de usuarios: " + users + "  -----");
+            System.out.println("---- Listado de niveles: " + usersLevel + "  -----");
         } catch (IOException e) {
             e.toString();
         }
@@ -58,7 +59,7 @@ public class UserService {
     /**
      * Method userLevel().
      * @param username
-     * @return int - level of the user
+     * @return string - level of the user
      */
     public int userLevel(String username) {
         return usersLevel.get(username);
