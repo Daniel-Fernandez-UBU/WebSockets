@@ -138,17 +138,10 @@ function getAvatarColor(messageSender) {
 }
 
 function disconnect() {
-    if (stompClient !== null) {
-	    var chatMessage = {
-            from: username,
-            type: 'LEAVE'
-        };
-        stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
-        clearMessageArea();
-        stompClient.disconnect();
-        usernamePage.classList.remove('hidden');
-        chatPage.classList.add('hidden');
-    }
+    clearMessageArea();
+    stompClient.disconnect();
+    usernamePage.classList.remove('hidden');
+    chatPage.classList.add('hidden');
 
 }
 
