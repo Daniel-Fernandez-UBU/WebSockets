@@ -8,16 +8,16 @@
   </head>
   <body>
     <noscript>
-      <h2>Sorry! Your browser doesn't support Javascript</h2>
+      <h2>Lo siento, tu navegador no soporta Javascript</h2>
     </noscript>
     <div id="username-page">
         <div class="username-page-container">
         	<h2 id="miAlerta"  class="hidden">Credenciales erróneas</h2>
-            <h1 class="title">Type your username</h1>
+            <h1 class="title">Introduce tus credenciales</h1>
             <form id="usernameForm" name="usernameForm">
                 <div class="form-group">
-                    <input type="text" id="from" placeholder="Username" autocomplete="off" class="form-control" />
-                    <input type="text" id="password" placeholder="Password" autocomplete="off" class="form-control" />
+                    <input type="text" id="from" placeholder="Usuario" autocomplete="off" class="form-control" />
+                    <input type="text" id="password" placeholder="Contraseña" autocomplete="off" class="form-control" />
                 </div>
                 <div class="form-group">
                 	<div>
@@ -32,7 +32,7 @@
 				    </div>
 			    </div>
                 <div class="form-group">
-                    <button type="submit" class="accent username-submit">Start Chatting</button>
+                    <button type="submit" class="accent username-submit">Iniciar Chat</button>
                 </div>
             </form>
         </div>
@@ -42,10 +42,10 @@
         <div class="chat-container">
             <div class="chat-header">
                 <h2>Spring WebSocket Chat</h2>
-                <button type="button" id="disconnectButton" class="secondary">Disconnect</button>
+                <button type="button" id="disconnectButton" class="secondary">Desconectarse</button>
             </div>
             <div class="connecting">
-                Connecting...
+                Conectando...
             </div>
             <ul id="messageArea">
 
@@ -53,8 +53,8 @@
             <form id="messageForm" name="messageForm">
                 <div class="form-group">
                     <div class="input-group clearfix">
-                        <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                        <button type="submit" class="primary">Send</button>
+                        <input type="text" id="message" placeholder="Escribe un mensaje..." autocomplete="off" class="form-control"/>
+                        <button type="submit" class="primary">Enviar</button>
                     </div>
                 </div>
             </form>

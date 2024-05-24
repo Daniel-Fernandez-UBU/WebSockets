@@ -9,6 +9,7 @@ Datos relevantes:
 - Si se intenta iniciar sesión con un usuario que no esté definido o una contraseña incorrecta, no se permite el acceso al chat.
 - Se ha cambiado el puerto por defecto a 8090
 - En la página de lógin se tiene que indicar si se quieren recibir mensajes de usuarios de niveles "inferiores" o no.
+- Los mensajes en el chat siguen el siguiente esquema: "nivel - usuario fecha del mensaje"
 
 Funcionamiento:
 - Clonar el repositorio.
